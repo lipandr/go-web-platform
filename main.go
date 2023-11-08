@@ -1,11 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"go-web-platform/logging"
+)
 
 func main() {
-	writeMessage()
+	var logger = logging.NewDefaultLogger(logging.Information)
+	writeMessage(logger)
 }
 
-func writeMessage() {
-	fmt.Println("Hello World")
+func writeMessage(log logging.Logger) {
+	log.Trace("Trace")
+	log.Debug("Debug")
+	log.Info("Info")
+	log.Warn("Warning")
+	log.Panic("Panic")
 }
