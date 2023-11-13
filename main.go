@@ -3,17 +3,22 @@ package main
 import (
 	"go-web-platform/config"
 	"go-web-platform/logging"
+	"go-web-platform/services"
 )
 
 func main() {
-	var cfg config.Configuration
-	var err error
-	cfg, err = config.Load("config.json")
-	if err != nil {
-		panic(err)
+	services.RegisterDefaultServices()
+
+	_, _ = services.Call(writeMessage)
+
+	val := struct {
+		message string
+		logging.Logger
+	}{
+		message: "Hello from the struct",
 	}
-	var logger = logging.NewDefaultLogger(cfg)
-	writeMessage(logger, cfg)
+	_ = services.Populate(&val)
+	val.Logger.Debug(val.message)
 }
 
 func writeMessage(logger logging.Logger, cfg config.Configuration) {
